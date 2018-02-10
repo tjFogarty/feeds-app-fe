@@ -1,59 +1,74 @@
 <template>
   <div id="app">
-    <div v-if="isLoading">
-      Loading...
-    </div>
-    
-    <div v-else>
-      <b-list-group v-if="feeds && feeds.length">
-        <b-list-group-item v-for="feed in feeds" :key="feed.title">
-          <a href="#" @click.prevent="selectFeed(feed.title)">
-            {{ feed.title }}
-          </a>
-        </b-list-group-item>
-      </b-list-group>
-      
-      <b-list-group v-if="selectedFeed && selectedFeed.items.length">
-        <b-list-group-item v-for="item in selectedFeed.items" :key="item.title">
-          <a href="#" @click.prevent="selectArticle(item)">
-            {{ item.title }}
-          </a>
-        </b-list-group-item>
-      </b-list-group>
-      
-      <div v-if="selectedArticle">
-        <div v-html="selectedArticle.content" />
-      </div>
-    </div>
+    <TitleBar />
+    <FeedReader />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
+import Loading from "./components/Loading.vue";
+import FeedReader from "./features/feed/index.vue";
+import TitleBar from "./components/TitleBar.vue";
 
 export default {
   name: "app",
 
-  computed: {
-    ...mapState(["feeds", "isLoading", "selectedFeed", "selectedArticle"])
-  },
-
-  methods: {
-    ...mapActions(["getFeeds", "selectFeed", "selectArticle"])
-  },
-
-  mounted() {
-    this.getFeeds();
-  }
+  components: { Loading, FeedReader, TitleBar }
 };
 </script>
 
 <style>
+:root {
+  --c-primary: #ff3b3f;
+  --c-text: #2c3e50;
+  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: var(--font-stack);
+  color: var(--c-text);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--c-primary);
+  transition: color ease 0.3s;
+}
+
+a:hover,
+a:focus {
+  color: var(--c-text);
+}
+
+body {
+  transition: background ease 0.3s, color ease 0.3s;
+}
+
+.is-dark-theme {
+  background-color: #282c34;
+  --c-text: #fff;
+  --c-primary: #bc75de;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(-10px);
+  opacity: 0;
 }
 </style>
