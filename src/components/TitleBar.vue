@@ -10,7 +10,7 @@
     </div>
     
     
-    <a href="" class="title-bar__source-link">
+    <a href="https://github.com/tjFogarty/feeds-app-fe" target="_blank" rel="noopener" class="title-bar__source-link">
       <i aria-hidden="true" class="fas fa-code" />
     </a>
   </div>
